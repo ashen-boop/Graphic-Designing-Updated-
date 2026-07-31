@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Artistic Unity · graphic design</title>
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #ffffff;
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      color: #111827;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    /* animations */
+    @keyframes fadeUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes floatGlow {
+      0% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(-8px) scale(1.02); }
+      100% { transform: translateY(0px) scale(1); }
+    }
+    @keyframes zoomReveal {
+      0% { opacity: 0; transform: scale(0.95); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .animate-fadeUp {
+      animation: fadeUp 0.8s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+      opacity: 0;
+    }
+    .animate-zoom {
+      animation: zoomReveal 0.9s ease forwards;
+      opacity: 0;
+    }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.35s; }
+    .delay-4 { animation-delay: 0.5s; }
+    .delay-5 { animation-delay: 0.65s; }
+
+    /* navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.03);
+      flex-wrap: wrap;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #1e1e2f, #3b3b5c);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .logo i {
+      -webkit-text-fill-color: #2d2d44;
+      margin-right: 6px;
+      font-size: 1.9rem;
+    }
+
+    /* hero */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      padding: 3rem 0 4rem;
+    }
+    .hero-content h1 {
+      font-size: 3.6rem;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -1px;
+      margin-bottom: 1.2rem;
+    }
+    .hero-content h1 span {
+      background: linear-gradient(145deg, #14141f, #3a3a5a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-content p {
+      font-size: 1.2rem;
+      color: #4b4b66;
+      margin-bottom: 2rem;
+      max-width: 90%;
+    }
+    .hero-image img {
+      width: 100%;
+      max-width: 500px;
+      border-radius: 32px;
+      box-shadow: 0 30px 50px -20px rgba(0,0,0,0.2);
+      transition: transform 0.4s ease;
+      background: #f8f8fc;
+    }
+    .badge-group {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      margin-top: 1.8rem;
+    }
+    .badge {
+      background: #f3f3f9;
+      padding: 0.6rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #1e1e2f;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    /* section title */
+    .section-title {
+      font-size: 2.6rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin: 4rem 0 1.2rem;
+      display: inline-block;
+      position: relative;
+    }
+    .section-title:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -10px;
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, #1e1e2f, #7a7a9e);
+      border-radius: 4px;
+    }
+
+    /* services grid */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2.2rem;
+      margin: 3.5rem 0 2rem;
+    }
+
+    /* service card — with carousel on top */
+    .service-card {
+      background: #fafaff;
+      border-radius: 30px;
+      padding: 0 0 1.8rem 0;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(0,0,0,0.02);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.02);
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+    .service-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 40px -20px rgba(20,20,30,0.2);
+      border-color: rgba(30,30,47,0.06);
+      background: #ffffff;
+    }
+
+    /* carousel wrapper inside card */
+    .card-carousel {
+      position: relative;
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+      background: #f0f0f6;
+      border-radius: 30px 30px 0 0;
+      flex-shrink: 0;
+    }
+    .card-carousel .slides {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
+    }
+    .card-carousel .slides img {
+      min-width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      flex-shrink: 0;
+    }
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(4px);
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 40px;
+      font-size: 1rem;
+      color: #1e1e2f;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      z-index: 5;
+    }
+    .carousel-btn:hover {
+      background: white;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    }
+    .carousel-btn.prev {
+      left: 8px;
+    }
+    .carousel-btn.next {
+      right: 8px;
+    }
+    .carousel-dots {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+      z-index: 5;
+    }
+    .carousel-dots span {
+      width: 8px;
+      height: 8px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.5);
+      transition: 0.25s;
+      cursor: pointer;
+    }
+    .carousel-dots span.active {
+      background: white;
+      width: 20px;
+    }
+
+    /* content inside card (below carousel) */
+    .card-content {
+      padding: 1.2rem 1.8rem 0.8rem;
+      flex: 1;
+    }
+    .card-content .icon {
+      font-size: 1.6rem;
+      color: #1e1e2f;
+      background: rgba(30,30,47,0.04);
+      width: 50px;
+      height: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+      margin-bottom: 0.8rem;
+    }
+    .card-content h3 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+    .card-content p {
+      color: #4a4a62;
+      font-size: 0.95rem;
+      margin-bottom: 0.8rem;
+    }
+    .service-tag {
+      font-size: 0.8rem;
+      background: #eaeaef;
+      padding: 0.25rem 0.9rem;
+      border-radius: 40px;
+      display: inline-block;
+      font-weight: 500;
+    }
+    .click-hint {
+      font-size: 0.7rem;
+      color: #8a8aa2;
+      margin-top: 0.6rem;
+      letter-spacing: 0.3px;
+    }
+
+    /* MODAL (popup) */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.35);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      padding: 1.5rem;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-box {
+      background: white;
+      max-width: 520px;
+      width: 100%;
+      border-radius: 40px;
+      padding: 2.2rem 2rem 2rem;
+      box-shadow: 0 40px 70px rgba(0,0,0,0.25);
+      animation: zoomReveal 0.3s ease;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-box h2 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+    .modal-box .sub {
+      color: #5a5a78;
+      margin-bottom: 1.2rem;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 0.6rem;
+      font-weight: 500;
+    }
+    .modal-box ul {
+      list-style: none;
+      padding: 0;
+    }
+    .modal-box ul li {
+      padding: 0.6rem 0;
+      border-bottom: 1px solid #f3f3f9;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      color: #1a1a2e;
+      font-size: 0.95rem;
+    }
+    .modal-box ul li i {
+      color: #1e1e2f;
+      width: 20px;
+      margin-top: 3px;
+    }
+    .modal-close {
+      background: #f0f0f6;
+      border: none;
+      padding: 0.6rem 1.8rem;
+      border-radius: 60px;
+      font-weight: 500;
+      margin-top: 1.8rem;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.95rem;
+    }
+    .modal-close:hover {
+      background: #1e1e2f;
+      color: white;
+    }
+
+    /* footer */
+    .footer {
+      border-top: 1px solid rgba(0,0,0,0.03);
+      padding: 2.8rem 0 2rem;
+      margin-top: 4rem;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      color: #4b4b66;
+      align-items: center;
+    }
+
+    @media (max-width: 850px) {
+      .hero { grid-template-columns: 1fr; text-align: center; }
+      .hero-content p { max-width: 100%; }
+      .badge-group { justify-content: center; }
+      .hero-image img { max-width: 90%; }
+    }
+    @media (max-width: 550px) {
+      .navbar { flex-direction: column; gap: 0.8rem; }
+      .container { padding: 0 1.2rem; }
+      .hero-content h1 { font-size: 2.8rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <!-- NAV -->
+  <nav class="navbar animate-fadeUp">
+    <div class="logo"><i class="fas fa-crown"></i> The Artistic Unity</div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content animate-fadeUp delay-1">
+      <h1>Design that <span>elevates</span> your brand</h1>
+      <p>Premium graphic design services — from identity to motion, we craft visuals that resonate.</p>
+      <div class="badge-group">
+        <span class="badge"><i class="fas fa-star"></i> 4.9/5</span>
+        <span class="badge"><i class="fas fa-trophy"></i> Awwwards nominee</span>
+        <span class="badge"><i class="fas fa-bolt"></i> 120+ projects</span>
+      </div>
+    </div>
+    <div class="hero-image animate-zoom delay-2">
+      <img src="https://images.unsplash.com/photo-1626785774573-7b7998ea9e8b?w=800&auto=format&fit=crop&q=80&ixlib=rb-4.0.3" alt="hero design" loading="lazy">
+    </div>
+  </section>
+
+  <!-- SERVICES SECTION -->
+  <div>
+    <h2 class="section-title animate-fadeUp delay-2">All services <i class="fas fa-pen-fancy" style="font-size: 2rem; margin-left: 10px; opacity: 0.3;"></i></h2>
+  </div>
+
+  <div class="services-grid" id="servicesGrid">
+    <!-- cards rendered by JS -->
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <span style="color: #8a8aa2; font-size: 0.9rem;">The Artistic Unity</span>
+  </footer>
+</div>
+
+<!-- MODAL (popup) -->
+<div class="modal-overlay" id="serviceModal">
+  <div class="modal-box">
+    <h2 id="modalTitle">Visual Identity</h2>
+    <div class="sub" id="modalSub">what we deliver</div>
+    <ul id="modalList"></ul>
+    <button class="modal-close" id="modalCloseBtn">Close</button>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // ----- service data with sub-services (detailed tasks) & unique images -----
+    const services = [
+      {
+        id: 'visual-identity',
+        title: 'Visual Identity',
+        icon: 'fa-paint-brush',
+        tag: 'Branding',
+        desc: 'Logo, brand guidelines, stationery, and complete identity systems.',
+        images: [
+          'https://i.postimg.cc/d1tqXbTh/Visual-identity-images-(2)-Copy.jpg',
+          'https://i.postimg.cc/KzqZy0n1/Visual-identity-images-(1)-Copy.jpg',
+          'https://i.postimg.cc/x1MTby2n/Visual-identity-images-Copy.jpg'
+        ],
+        tasks: [
+          'Logo design & brand mark creation',
+          'Comprehensive brand guidelines (color, typography, usage)',
+          'Stationery design (business cards, letterheads, envelopes)',
+          'Brand style guides & asset libraries',
+          'Brand identity refresh & evolution'
+        ]
+      },
+      {
+        id: 'ui-ux',
+        title: 'UI/UX Design',
+        icon: 'fa-mobile-alt',
+        tag: 'Digital',
+        desc: 'Web & mobile interfaces, wireframes, prototypes with pixel-perfect polish.',
+        images: [
+          'https://i.postimg.cc/wv0Bjqd2/real-UI-UX-Design-images.jpg',
+          'https://i.postimg.cc/NMgMtySV/real-UI-UX-Design-images-(1).jpg',
+          'https://i.postimg.cc/sXw2gjR3/real-UI-UX-Design-images-(2).jpg'
+        ],
+        tasks: [
+          'Wireframing & interactive prototyping',
+          'High-fidelity UI design for web & mobile',
+          'Design systems & component libraries',
+          'Usability testing & iterative improvement',
+          'Responsive & accessible interface design'
+        ]
+      },
+      {
+        id: 'print-packaging',
+        title: 'Print & Packaging',
+        icon: 'fa-print',
+        tag: 'Print',
+        desc: 'Editorial, brochures, packaging design that stands out on shelf.',
+        images: [
+          'https://i.postimg.cc/NMgMtyZt/real-Print-Packaging-images.jpg',
+          'https://i.postimg.cc/bvfr6VTf/real-Print-Packaging-images-(1).jpg',
+          'https://i.postimg.cc/vBQBy1kS/real-Print-Packaging-images-(2).jpg'
+        ],
+        tasks: [
+          'Packaging design & 3D mockups',
+          'Brochures, catalogs & editorial layout',
+          'Label design & product packaging',
+          'Print production-ready files (CMYK, die-cuts)',
+          'Shelf-ready packaging strategy'
+        ]
+      },
+      {
+        id: 'motion',
+        title: 'Motion Graphics',
+        icon: 'fa-film',
+        tag: 'Motion',
+        desc: '2D/3D animation, explainers, social media motion content.',
+        images: [
+          'https://i.postimg.cc/jd9LfSn4/a-surreal-and-vibrant-cinematic-photo-of-Social-Media-teenager-collage-Designs-surreal-photography.jpg',
+          'https://i.postimg.cc/52LNFqV4/UI-UX-Design-images.jpg',
+          'https://i.postimg.cc/tgGJrv5g/real-Motion-Graphics-images-(2).jpg'
+        ],
+        tasks: [
+          '2D & 3D animation production',
+          'Explainer videos & motion storytelling',
+          'Social media motion loops & ads',
+          'Motion branding & animated logos',
+          'Visual effects & compositing'
+        ]
+      },
+      {
+        id: 'social',
+        title: 'Social Media Design',
+        icon: 'fa-chart-line',
+        tag: 'Digital',
+        desc: 'Carousels, stories, ads, and dynamic templates for all platforms.',
+        images: [
+          'https://i.postimg.cc/BQdn67RK/Social-Media-post-Designs-(1).jpg',
+          'https://i.postimg.cc/SNXKmb14/Social-Media-post-Designs.jpg',
+          'https://i.postimg.cc/26z6YqMs/real-Print-Packaging-images-(3).jpg'
+        ],
+        tasks: [
+          'Carousel & story template design',
+          'Social ad creatives (static & motion)',
+          'Branded social media assets',
+          'Content calendar & template systems',
+          'Platform-specific optimized designs'
+        ]
+      },
+      {
+        id: 'art-direction',
+        title: 'Art Direction',
+        icon: 'fa-drafting-compass',
+        tag: 'Strategy',
+        desc: 'Creative strategy, photoshoot direction, and visual storytelling.',
+        images: [
+          'https://i.postimg.cc/PxVnpNV2/UI-UX-Design-images-(1).jpg',
+          'https://i.postimg.cc/vmzsy0WX/make-images-about-directing-work.jpg',
+          'https://i.postimg.cc/XJ16GX1k/Social-Media-Design.jpg'
+        ],
+        tasks: [
+          'Creative concept & campaign development',
+          'Photoshoot art direction & styling',
+          'Visual storytelling & narrative design',
+          'Campaign look & feel definition',
+          'Creative team & production supervision'
+        ]
+      }
+    ];
+
+    const grid = document.getElementById('servicesGrid');
+    const modalOverlay = document.getElementById('serviceModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalSub = document.getElementById('modalSub');
+    const modalList = document.getElementById('modalList');
+    const closeBtn = document.getElementById('modalCloseBtn');
+
+    // ---- render cards ----
+    services.forEach((svc, idx) => {
+      const card = document.createElement('div');
+      card.className = `service-card animate-fadeUp delay-${(idx % 5) + 1}`;
+      card.dataset.id = svc.id;
+
+      let slidesHtml = svc.images.map(img => `<img src="${img}" alt="${svc.title}" loading="lazy">`).join('');
+      let dotsHtml = svc.images.map((_, i) => `<span class="${i === 0 ? 'active' : ''}" data-index="${i}"></span>`).join('');
+
+      card.innerHTML = `
+        <div class="card-carousel" data-id="${svc.id}">
+          <div class="slides" id="slides-${svc.id}">
+            ${slidesHtml}
+          </div>
+          <button class="carousel-btn prev" data-id="${svc.id}"><i class="fas fa-chevron-left"></i></button>
+          <button class="carousel-btn next" data-id="${svc.id}"><i class="fas fa-chevron-right"></i></button>
+          <div class="carousel-dots" id="dots-${svc.id}">${dotsHtml}</div>
+        </div>
+        <div class="card-content">
+          <div class="icon"><i class="fas ${svc.icon}"></i></div>
+          <h3>${svc.title}</h3>
+          <p>${svc.desc}</p>
+          <span class="service-tag">${svc.tag}</span>
+          <div class="click-hint"><i class="fas fa-mouse-pointer"></i> click for details</div>
+        </div>
+      `;
+      grid.appendChild(card);
+
+      // carousel logic
+      const slidesContainer = card.querySelector('.slides');
+      const prevBtn = card.querySelector('.prev');
+      const nextBtn = card.querySelector('.next');
+      const dots = card.querySelectorAll('.carousel-dots span');
+      let currentIndex = 0;
+      const totalSlides = svc.images.length;
+
+      function updateCarousel(index) {
+        if (index < 0) index = totalSlides - 1;
+        if (index >= totalSlides) index = 0;
+        currentIndex = index;
+        slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+        dots.forEach((dot, i) => {
+          dot.classList.toggle('active', i === currentIndex);
+        });
+      }
+
+      prevBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        updateCarousel(currentIndex - 1);
+      });
+      nextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        updateCarousel(currentIndex + 1);
+      });
+      dots.forEach(dot => {
+        dot.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const idx = parseInt(dot.dataset.index);
+          updateCarousel(idx);
+        });
+      });
+
+      // click card -> open modal with sub-services
+      card.addEventListener('click', function(e) {
+        if (e.target.closest('.carousel-btn') || e.target.closest('.carousel-dots')) return;
+        openModal(svc);
+      });
+    });
+
+    // ---- modal functions ----
+    function openModal(svc) {
+      modalTitle.textContent = svc.title;
+      modalSub.textContent = `what we deliver — ${svc.tasks.length} core services`;
+      modalList.innerHTML = '';
+      svc.tasks.forEach(task => {
+        const li = document.createElement('li');
+        li.innerHTML = `<i class="fas fa-check-circle"></i> ${task}`;
+        modalList.appendChild(li);
+      });
+      modalOverlay.classList.add('active');
+    }
+
+    function closeModal() {
+      modalOverlay.classList.remove('active');
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+  })();
+</script>
+</body>
+</html>
