@@ -24,6 +24,46 @@
       margin: 0 auto;
       padding: 0 2rem;
     }
+
+    /* ===== FIXED BACK BUTTON — top-LEFT corner ===== */
+    .back-btn {
+      position: fixed;
+      top: 1.5rem;
+      left: 1.5rem;            /* moved from right to left */
+      z-index: 1000;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: #1e1e2f;
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 60px;
+      padding: 0.7rem 1.8rem 0.7rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+      text-decoration: none;
+    }
+    .back-btn i {
+      font-size: 1rem;
+      color: #ffffff;
+      transition: transform 0.15s ease;
+    }
+    .back-btn:hover {
+      background: #3b3b5c;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
+      transform: translateY(-1px);
+    }
+    .back-btn:hover i {
+      transform: translateX(-3px);
+    }
+    .back-btn:active {
+      transform: scale(0.98);
+    }
+
     /* animations */
     @keyframes fadeUp {
       0% { opacity: 0; transform: translateY(20px); }
@@ -52,12 +92,14 @@
     .delay-4 { animation-delay: 0.5s; }
     .delay-5 { animation-delay: 0.65s; }
 
-    /* navbar */
+    /* ===== NAVBAR — pushed down & left-padded so button never overlaps ===== */
     .navbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 1.5rem 0;
+      padding-top: 5.5rem;    /* extra top space so fixed button clears the logo */
+      padding-left: 10rem;    /* keep logo away from the top-LEFT button */
       border-bottom: 1px solid rgba(0,0,0,0.03);
       flex-wrap: wrap;
     }
@@ -388,13 +430,32 @@
       .hero-image img { max-width: 90%; }
     }
     @media (max-width: 550px) {
-      .navbar { flex-direction: column; gap: 0.8rem; }
+      .navbar {
+        flex-direction: column;
+        gap: 0.8rem;
+        padding-top: 5rem;   /* keep space for fixed button on mobile */
+        padding-left: 0;
+      }
       .container { padding: 0 1.2rem; }
       .hero-content h1 { font-size: 2.8rem; }
+      .back-btn {
+        top: 1rem;
+        left: 1rem;          /* stay at top-left on mobile */
+        font-size: 0.85rem;
+        padding: 0.55rem 1.3rem 0.55rem 1.1rem;
+      }
     }
   </style>
 </head>
 <body>
+
+  <!-- ===== FIXED BACK BUTTON (top-LEFT) ===== 
+       Replace the href below with your own website URL.
+  -->
+  <a href="https://your-website.com" class="back-btn" id="backButton">
+    <i class="fas fa-arrow-left"></i> Back
+  </a>
+
 <div class="container">
   <!-- NAV -->
   <nav class="navbar animate-fadeUp">
